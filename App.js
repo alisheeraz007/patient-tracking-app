@@ -18,14 +18,20 @@ import {
 
 import { Provider } from 'react-redux'
 import store from './store'
-import { Router, Stack, Scene } from 'react-native-router-flux';
+import { Router, Stack, Scene, Actions } from 'react-native-router-flux';
 import Loader from './Components/loader/loader';
+import SignIn from './Components/signIn';
+import { Button } from 'native-base';
+import SignUp from './Components/signUp';
 
-const abc = () => {
+const Login = () => {
   return (
-    <View>
-
-    </View>
+    <Button
+      style={{ height: 30, backgroundColor: "transparent", width: 60, marginRight: 10 }}
+      onPress={()=>Actions.signUp()}
+    >
+      <Text style={{ color: "white", width: "100%", textAlign: "center" }}>Register</Text>
+    </Button>
   )
 }
 
@@ -37,12 +43,12 @@ class App extends React.Component {
     }
   }
 
-  UNSAFE_componentWillMount(){
-    setTimeout(()=>{
+  UNSAFE_componentWillMount() {
+    setTimeout(() => {
       this.setState({
         loader: false
       })
-    },3000)
+    }, 1000)
   }
 
   render() {
@@ -51,18 +57,14 @@ class App extends React.Component {
         {this.state.loader ?
           <Loader />
           :
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-
-            <Provider store={store}>
-              <Router>
-                <Stack navigationBarStyle={{ backgroundColor: "rgba(0,0,0,0.5)" }} titleStyle={{ color: "white", textAlign: "center", }}>
-                  <Scene key="userForm" component={abc} title="User Entry Form" init />
-                </Stack>
-              </Router>
-            </Provider>
-          </ScrollView>
+          <Provider store={store}>
+            <Router>
+              <Stack navigationBarStyle={{ backgroundColor: "rgb(20, 52, 156)" }} titleStyle={{ color: "white"}} tintColor="white">
+                <Scene tabs={true} key="/" component={SignIn} title="Patiant Tracking App" renderRightButton={Login} init />
+                <Scene key="signUp" component={SignUp} title="Patiant Tracking App" />
+              </Stack>
+            </Router>
+          </Provider>
         }
       </>
     );
